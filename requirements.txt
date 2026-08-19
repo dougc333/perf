@@ -1,2 +1,7 @@
-!pip install -q py-spy
-
+# Runtime dependencies for the HF load-profiling scripts.
+# Install with: pip install -r requirements.txt
+py-spy>=0.3.14
+torch>=2.2
+transformers>=4.46
+safetensors>=0.4
+# optional - real speedscope.app screenshots (postprocess.py): pip install playwright && playwright install chromium

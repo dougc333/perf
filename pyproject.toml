@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "perf"
+version = "0.1.0"
+description = "Profile Hugging Face model loading with py-spy (speedscope output)"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "py-spy>=0.3.14",
+    "torch>=2.2",
+    "transformers>=4.46",
+    "safetensors>=0.4",
+]
+
+[project.scripts]
+perf-measure = "measure_2:main"
+perf-record = "runme_droplet:main"
+perf-speedgraph = "speedgraph:main"
+
+[tool.setuptools]
+py-modules = ["measure_2", "runme_droplet", "speedgraph"]

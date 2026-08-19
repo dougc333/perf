@@ -1,6 +1,7 @@
-import os, subprocess, signal, time
+import os, subprocess, time
+
 PID = os.getpid()
-print(f"Kernel PID: {PID}")
+print(f"PID: {PID}")
 
 log = open("pyspy.log", "w")
 p = subprocess.Popen(
@@ -8,10 +9,8 @@ p = subprocess.Popen(
      "--rate", "100", "--duration", "600"],
     stdout=log, stderr=subprocess.STDOUT,
 )
-print("profiling started")
-time.sleep(2)  # let py-spy actually finish attaching before anything worth capturing runs
-print("py-spy attached, ready to profile")
-
+time.sleep(2)
+print("py-spy attached")
 import time
 
 t0 = time.perf_counter()
@@ -28,8 +27,3 @@ t3 = time.perf_counter()
 print(f"import transformers:  {t1 - t0:.3f}s")
 print(f"AutoModelForCausalLM: {t2 - t1:.3f}s")
 print(f"from_pretrained load: {t3 - t2:.3f}s")
-
-p.send_signal(signal.SIGINT)   # py-spy treats this as "finish recording now"
-p.wait(timeout=30)
-log.close()
-print("done — hf_profile.speedscope.json is ready")
