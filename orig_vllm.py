@@ -30,7 +30,6 @@ subprocess.run(
     ],
     check=True,
 )
-os.process()
 t2 = time.perf_counter()
 
 
