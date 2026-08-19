@@ -1,5 +1,11 @@
 # perf
 
+This was created and interpreted by an Agent. Uplodaing speedgraphs to an agent and getting performance numbers is faster that what any human can do. Not verified across platforms yet. Perf will vary depending on shared cpu instance, dedicated instance, memory, etc. This is just an POC for warmstart vs coldstart numbers for transformer loading. Nothing to do with vllm yet. 
+
+If there is a performance number I tend not to believe it. The speedgraph serves as a log of the event. 
+Hopefully this makes the blatent errors more acceptable. 
+
+
 Profile how long it takes to import transformers and load a Hugging Face model
 (Qwen/Qwen3-0.6B by default), using py-spy (https://github.com/benfred/py-spy)
 sampling into speedscope (https://www.speedscope.app/) JSON.
