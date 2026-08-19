@@ -1,0 +1,4 @@
+fastapi>=0.110
+uvicorn>=0.29
+# ML deps for the profiling scripts (installed on the droplet via init.sh):
+#   torch transformers py-spy safetensors

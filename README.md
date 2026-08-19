@@ -57,3 +57,16 @@ _placeholder: no cold-start snapshot yet_
 _placeholder: no warm-start snapshot yet_
 
 <!-- RESULTS:END -->
+
+## Dashboard servers
+
+Two servers automate the workflow:
+
+- macos/ - React dashboard + Node API server (runs on this MacBook).
+  Droplet creation (DigitalOcean), forwarding script runs to the droplet,
+  local post-processing, results browsing.
+- droplet/ - FastAPI runner server (runs on the droplet).
+  Executes profiling scripts such as orig.py and serves their output.
+
+See droplet/README.md for the runner; macos/ is built with npm (install,
+build, start).

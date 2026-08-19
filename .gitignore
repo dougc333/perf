@@ -5,3 +5,5 @@ dist/
 *.egg-info/
 .venv/
 pyspy.log
+macos/node_modules/
+macos/dist/
