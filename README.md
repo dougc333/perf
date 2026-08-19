@@ -70,3 +70,20 @@ Two servers automate the workflow:
 
 See droplet/README.md for the runner; macos/ is built with npm (install,
 build, start).
+
+## Measured timings
+
+Estimated from the speedscope profiles (hf_profile.speedscope.json = warmstart,
+hf_profile.speedscope_coldstart.json = coldstart), segmented by the executing
+line of the profiling script (start_1.py).
+
+| Phase | warmstart (ms) | coldstart (ms) |
+| --- | ---: | ---: |
+| import transformers | 1600 | 2150 |
+| import model (from transformers import AutoModelForCausalLM) | 6720 | 9580 |
+| load weights (AutoModelForCausalLM.from_pretrained("Qwen/Qwen3-0.6B")) | 1020 | 2340 |
+| **Total (3 phases)** | **9340** | **14070** |
+
+![warmstart](warmstart.png)
+
+![coldstart](coldstart.png)
