@@ -18,8 +18,19 @@ t0 = time.perf_counter()
 import vllm
 t1 = time.perf_counter()
 print(f"import vllm: {t1 - t0:.3f}s")
+import subprocess
 
-vllm serve Qwen/Qwen3-0.6B --model-impl transformers
+subprocess.run(
+    [
+        "vllm",
+        "serve",
+        "Qwen/Qwen3-0.6B",
+        "--model-impl",
+        "transformers",
+    ],
+    check=True,
+)
+os.process()
 t2 = time.perf_counter()
 
 
