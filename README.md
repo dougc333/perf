@@ -2,6 +2,8 @@
 
 This was created and interpreted by an Agent. Uplodaing speedgraphs to an agent and getting performance numbers is faster that what any human can do. Not verified across platforms yet. Perf will vary depending on shared cpu instance, dedicated instance, memory, etc. This is just an POC for warmstart vs coldstart numbers for transformer loading. Nothing to do with vllm yet. 
 
+The warmstart nubmers are 9s, have observed down to 2s. Needs more investigation. 
+
 If there is a performance number I tend not to believe it. The speedgraph serves as a log of the event. 
 Hopefully this makes the blatent errors more acceptable. 
 
