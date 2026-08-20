@@ -18,8 +18,6 @@ pyenv global 3.12
 
 
 
-
-
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 export PATH="$HOME/.local/bin:$PATH"
@@ -56,7 +54,7 @@ uv pip install vllm --torch-backend=cu130
 
 export LD_LIBRARY_PATH=/workspace/vllm-env/lib/python3.12/site-packages/nvidia/cu13/lib:${LD_LIBRARY_PATH:-}
 
-
+VLLM_USE_FLASHINFER_SAMPLER=0 \
 > HF_HUB_OFFLINE=1 \
 > vllm serve /workspace/models/Qwen3-0.6B \
 >   --served-model-name Qwen/Qwen3-0.6B \

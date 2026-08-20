@@ -1,5 +1,5 @@
 import os, subprocess, time
-import vllm
+import oldvllm
 
 PID = os.getpid()
 print(f"PID: {PID}")
@@ -15,7 +15,7 @@ print("py-spy attached")
 import time
 
 t0 = time.perf_counter()
-import vllm
+import oldvllm
 t1 = time.perf_counter()
 print(f"import vllm: {t1 - t0:.3f}s")
 import subprocess

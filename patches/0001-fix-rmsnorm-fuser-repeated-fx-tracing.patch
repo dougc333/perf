@@ -1,0 +1,77 @@
+From: perf profiling
+Subject: [PATCH] Fix repeated FX tracing in the RMSNorm fuser (ticket #50128)
+
+RMSNormFuser.match() already receives the traced graph from get_fuser()
+(which caches the match per module class). fuse() nevertheless re-traces
+every module instance via fx_utils.trace() just to extract eps, so a model
+with N RMSNorm instances performs N redundant torch.fx symbolic traces
+(Qwen3-0.6B: 113 fuse-time traces vs 7 match-time traces).
+
+Fix: extract eps once in match() (the graph is already there) and store it
+on the fuser; fuse() uses the stored value and never re-traces.
+
+Observed on Qwen3-0.6B (NVIDIA A40, vLLM 0.27.1, model-impl transformers):
+  - FX trace() calls during model load: 120 -> 7 (all from get_fuser)
+  - recursive_replace / model construction time: measurably reduced
+    (see A/B in the ticket)
+
+---
+ vllm/model_executor/models/transformers/fusers/rms_norm.py | 16 ++++++++--------
+ 1 file changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/vllm/model_executor/models/transformers/fusers/rms_norm.py b/vllm/model_executor/models/transformers/fusers/rms_norm.py
+index 1111111..2222222 100644
+--- a/vllm/model_executor/models/transformers/fusers/rms_norm.py
++++ b/vllm/model_executor/models/transformers/fusers/rms_norm.py
+@@ -23,7 +23,6 @@
+     is_op,
+     output_value,
+     peel,
+-    trace,
+ )
+ 
+ if TYPE_CHECKING:
+@@ -119,6 +118,13 @@
+     """Gemma-style (1 + weight) scaling (weight initialised at zero)."""
+     source_cls: str
+     """Class name of the norm this was matched from (for logging)."""
++    eps: float | None = None
++    """eps extracted from the traced graph at match time (once per class).
++
++    fuse() must not re-trace: get_fuser already traced the class to match it,
++    and re-tracing every instance duplicates the expensive torch.fx symbolic
++    trace (ticket #50128: ~113 extra traces for Qwen3-0.6B).
++    """
+ 
+     def info(self, name: str) -> str:
+         norm = "GemmaRMSNorm" if self.zero_centered else "RMSNorm"
+@@ -137,7 +143,8 @@
+         if rms_norm is not None and rms_norm.args and peel(rms_norm.args[0]) is x:
+             if _has_trailing_compute(graph, rms_norm):
+                 return None
+-            return cls(zero_centered=False, source_cls=type(module).__name__)
++            return cls(zero_centered=False, source_cls=type(module).__name__,
++                       eps=cls._eps_from_graph(graph))
+         # Handle explicit x * rsqrt(mean(x**2, -1) + eps) pattern.
+         # The rsqrt over the mean-square variance is the spine of the norm.
+         rsqrt = None
+@@ -166,7 +173,8 @@
+         # The norm must be the last compute in forward, or it is not a pure norm.
+         if _has_trailing_compute(graph, tail):
+             return None
+-        return cls(zero_centered=zero_centered, source_cls=type(module).__name__)
++        return cls(zero_centered=zero_centered, source_cls=type(module).__name__,
++                   eps=cls._eps_from_graph(graph))
+ 
+     @staticmethod
+     def _eps_from_graph(graph: fx.Graph) -> float | None:
+@@ -195,8 +203,7 @@
+         hidden_size = (
+             weight.size(0) if weight is not None else model_config.get_hidden_size()
+         )
+-        graph = trace(module)
+-        eps = self._eps_from_graph(graph) if graph is not None else None
++        eps = self.eps
+         if eps is None:
+             # If eps not in graph, match torch behaviour.
+             dtype = weight.dtype if weight is not None else model_config.dtype
