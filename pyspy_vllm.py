@@ -12,7 +12,7 @@ t0 = time.perf_counter()
 
 # 2. Start vllm, letting it print directly to the console for easy debugging
 server_process = subprocess.Popen(
-    ["vllm", "serve", "Qwen/Qwen3-0.6B", "--model-impl", "transformers"],
+    ["vllm", "serve", "Qwen/Qwen3-0.6B", "--model-impl", "vllm"],
 )
 
 child_pid = server_process.pid
