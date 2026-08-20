@@ -6,4 +6,4 @@ curl -LsSf https://astral.sh/uv/install.sh | sh
 source venv/bin/activate
 
 
-uv pip install vllm --torch-backend=auto
+/root/.local/bin/uv pip install vllm --torch-backend=auto
