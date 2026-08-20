@@ -1,0 +1,29 @@
+Thu Aug 20 00:10:56 2026    vllm_profile.stats
+
+         26744216 function calls (24765229 primitive calls) in 73.477 seconds
+
+   Ordered by: cumulative time
+   List reduced from 28625 to 20 due to restriction <20>
+
+   ncalls  tottime  percall  cumtime  percall filename:lineno(function)
+        1    0.000    0.000   73.516   73.516 /usr/local/lib/python3.11/dist-packages/vllm/entrypoints/cli/main.py:17(main)
+        1    0.000    0.000   73.516   73.516 /usr/local/lib/python3.11/dist-packages/vllm/entrypoints/cli/serve.py:49(cmd)
+        1    0.000    0.000   69.893   69.893 /usr/local/lib/python3.11/dist-packages/uvloop/__init__.py:38(run)
+        1    0.100    0.100   64.266   64.266 /usr/lib/python3.11/asyncio/runners.py:86(run)
+        7    0.000    0.000   44.929    6.418 /usr/local/lib/python3.11/dist-packages/uvloop/__init__.py:41(wrapper)
+        7    0.000    0.000   44.929    6.418 /usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py:751(run_server)
+      8/5    0.000    0.000   44.917    8.983 /usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py:767(run_server_worker)
+     22/4    0.000    0.000   41.216   10.304 /usr/lib/python3.11/contextlib.py:205(__aenter__)
+        4    0.000    0.000   40.938   10.234 /usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py:109(build_async_engine_client)
+        4    0.000    0.000   40.937   10.234 /usr/local/lib/python3.11/dist-packages/vllm/entrypoints/openai/api_server.py:140(build_async_engine_client_from_engine_args)
+        1    0.000    0.000   33.028   33.028 /usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py:205(from_vllm_config)
+        1    0.000    0.000   33.028   33.028 /usr/local/lib/python3.11/dist-packages/vllm/v1/engine/async_llm.py:75(__init__)
+60495/48232    0.018    0.000   31.950    0.001 {built-in method builtins.next}
+18630/18623    0.009    0.000   28.096    0.002 /usr/lib/python3.11/contextlib.py:141(__exit__)
+      3/2    0.000    0.000   28.084   14.042 /usr/local/lib/python3.11/dist-packages/vllm/tracing/otel.py:165(sync_wrapper)
+        1    0.000    0.000   28.072   28.072 /usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py:114(make_async_mp_client)
+        1    0.000    0.000   28.071   28.071 /usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py:977(__init__)
+        1    0.000    0.000   28.071   28.071 /usr/local/lib/python3.11/dist-packages/vllm/v1/engine/core_client.py:516(__init__)
+        2    0.000    0.000   28.068   14.034 /usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py:1053(launch_core_engines)
+        1    0.000    0.000   28.066   28.066 /usr/local/lib/python3.11/dist-packages/vllm/v1/engine/utils.py:1206(wait_for_engine_startup)
+        

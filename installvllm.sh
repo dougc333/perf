@@ -2,7 +2,7 @@
 
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
-/root/.local/bin/uv venv v
+/root/.local/bin/uv venv venv
 source venv/bin/activate
 
 
